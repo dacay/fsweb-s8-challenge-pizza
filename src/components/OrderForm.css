@@ -1,0 +1,99 @@
+.order-form {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+  font-family: 'Barlow', sans-serif;
+}
+
+.order-form .content {
+  width: 35%;
+  min-width: 400px;
+}
+
+.order-form .content h2 {
+  font-size: 1.2rem;
+  padding: 1rem 0;
+}
+
+.order-form .content .metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-form .content .metadata .price {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.order-form .content .metadata .reviews {
+  color: #5F5F5F;
+  font-size: 0.85rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.order-form .content form {
+  padding: 1rem 0;
+}
+
+.order-form .content form .description {
+  color: #5F5F5F;
+  font-size: 0.85rem;
+}
+
+.order-form .content form .required {
+  color: #CE2829;
+  font-weight: bold;
+  margin-left: 0.2rem;
+}
+
+.order-form .content form legend {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.order-form .content form .row {
+  margin: 2rem 0;
+}
+
+.order-form .content form .summary {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.order-form .content form .summary h3 {
+  font-size: 1.2rem;
+  padding: 0.2rem 0;
+}
+
+.order-form .content form .summary-additions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 0;
+}
+
+.order-form .content form .summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #CE2829;
+  font-weight: 600;
+  padding: 0.2rem 0;
+}
+
+.order-form .content form .order-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #FDC913;
+  color: black;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

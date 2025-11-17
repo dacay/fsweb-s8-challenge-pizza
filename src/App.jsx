@@ -4,9 +4,11 @@ import {
   Route,
 } from "react-router-dom";
 
-import Home from "./components/Home";
-import Success from "./components/Success";
-import Order from "./components/Order";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Home from "./Home";
+import Success from "./pages/Success";
+import Order from "./pages/Order";
 
 function App() {
 
