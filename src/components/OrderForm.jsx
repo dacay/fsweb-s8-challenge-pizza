@@ -8,6 +8,7 @@ import './OrderForm.css';
 export default function OrderForm() {
 
   const [formData, setFormData] = useState({
+    name: '',
     size: '',
     thickness: '',
     notes: '',
@@ -65,6 +66,19 @@ export default function OrderForm() {
           <p className="description">
             Frontent Dev olarak hala position:absolute kullanıyorsan bu çok acı pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir. . Küçük bir pizzaya bazen pizzetta denir.
           </p>
+          <Row>
+            <Col md={12}>
+              <legend>
+                Ad Soyad<span className="required">*</span>
+              </legend>
+              <Input
+                name="name"
+                type="text"
+                onChange={handleChange}
+                value={formData.name}
+              />
+            </Col>
+          </Row>
           <Row>
             <Col md={6}>
               <FormGroup tag="fieldset">
