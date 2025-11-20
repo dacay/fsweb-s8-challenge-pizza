@@ -1,12 +1,12 @@
-import './Header.css';
+import Logo from './Logo';
 
-import logo from '../assets/logo.svg'
+import './Header.css';
 
 export default function Header() {
   return (
     <div className='header'>
       <div className='content'>
-        <img src={logo} alt="logo" />
+        <Logo />
         <a>Anasayfa - <strong>Sipariş Oluştur</strong></a>
       </div>
     </div>
