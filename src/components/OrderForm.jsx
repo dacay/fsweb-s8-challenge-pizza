@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Form, Row, Col, FormGroup, Label, Input, Button, InputGroup } from 'reactstrap';
 import AdditionCheckBox from './AdditionCheckBox';
 
 import './OrderForm.css';
+
+const PIZZA_PRICE = 85.5;
 
 export default function OrderForm() {
 
@@ -15,11 +17,34 @@ export default function OrderForm() {
     additions: [],
     quantity: 1,
   });
+  const [errors, setErrors] = useState({
+    name: '',
+    additions: '',
+    size: '',
+    thickness: '',
+  });
+
+  const [isValid, setIsValid] = useState(false);
 
   const [cost, setCost] = useState({
     additions: 0,
     total: 0,
   });
+
+  useEffect(() => {
+
+    const baseCost = PIZZA_PRICE * formData.quantity;
+
+    const additionsCost = (formData.additions.length * 5) * formData.quantity;
+
+    const totalCost = baseCost + additionsCost;
+
+    setCost({
+      additions: additionsCost,
+      total: totalCost,
+    })
+
+  }, [formData.additions, formData.quantity]);
 
   const handleIncrementQuantity = (e) => {
     setFormData({ ...formData, quantity: formData.quantity + 1 });
@@ -227,7 +252,7 @@ export default function OrderForm() {
                   <span>{cost.total}₺</span>
                 </div>
               </div>
-              <button className='order-button'>SİPARİŞ VER</button>
+              <button disabled={!isValid} className='order-button'>SİPARİŞ VER</button>
             </Col>
           </Row>
         </Form>

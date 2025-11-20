@@ -58,6 +58,10 @@
   margin: 2rem 0;
 }
 
+.col-md-12, .col-md-6 {
+  padding: 0;
+}
+
 .order-form .content form .summary {
   display: flex;
   flex-direction: column;
@@ -96,4 +100,11 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.order-form .content form .order-button:disabled {
+  width: 100%;
+  padding: 1rem;
+  background-color: lightgray;
+  cursor: not-allowed;
 }
