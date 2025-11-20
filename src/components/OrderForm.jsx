@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import './OrderForm.css';
-
 import { Form, Row, Col, FormGroup, Label, Input, Button, InputGroup } from 'reactstrap';
+import AdditionCheckBox from './AdditionCheckBox';
+
+import './OrderForm.css';
 
 export default function OrderForm() {
 
@@ -10,6 +11,7 @@ export default function OrderForm() {
     size: '',
     thickness: '',
     notes: '',
+    additions: [],
     quantity: 1,
   });
 
@@ -28,7 +30,24 @@ export default function OrderForm() {
 
   const handleChange = (e) => {
 
-    console.log(`${e.target.name}: ${e.target.value}`);
+    const { name, value } = e.target;
+
+    console.log(`${name}: ${value}`);
+
+    if (e.target.name === 'additions') {
+
+      setFormData({
+        ...formData,
+        [name]: formData.additions.includes(value) ? formData.additions.filter(a => a !== value) : [...formData.additions, value],
+      })
+
+    } else {
+
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   return (
@@ -58,6 +77,8 @@ export default function OrderForm() {
                       name="size"
                       type="radio"
                       onChange={handleChange}
+                      value="Küçük"
+                      checked={formData.size === "Küçük"}
                     />
                     {' '}
                     Küçük
@@ -69,6 +90,8 @@ export default function OrderForm() {
                       name="size"
                       type="radio"
                       onChange={handleChange}
+                      value="Orta"
+                      checked={formData.size === "Orta"}
                     />
                     {' '}
                     Orta
@@ -82,6 +105,8 @@ export default function OrderForm() {
                       name="size"
                       type="radio"
                       onChange={handleChange}
+                      value="Büyük"
+                      checked={formData.size === "Büyük"}
                     />
                     {' '}
                     Büyük
@@ -99,6 +124,8 @@ export default function OrderForm() {
                   id="thickness"
                   name="thickness"
                   type="select"
+                  onChange={handleChange}
+                  value={formData.thickness}
                 >
                   <option value="">
                     Hamur Kalınlığı
@@ -126,136 +153,23 @@ export default function OrderForm() {
               </FormGroup>
             </Col>
             <Col md={4}>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Pepperoni
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Tavuk Izgara
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Mısır
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Sarımsak
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Ananas
-                </Label>
-              </FormGroup>
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Pepperoni" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Tavuk Izgara" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Mısır" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sarımsak" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Ananas" />
             </Col>
             <Col md={4}>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Sosis
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Soğan
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Sucuk
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Biber
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Kabak
-                </Label>
-              </FormGroup>
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sosis" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Soğan" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sucuk" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Biber" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Kabak" />
             </Col>
             <Col md={4}>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Kanada Jambonu
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Domates
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Jalepeno
-                </Label>
-              </FormGroup>
-              <FormGroup
-                check
-                inline
-              >
-
-                <Label check>
-                  <Input type="checkbox" />{' '}Sucuk
-                </Label>
-              </FormGroup>
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Kanada Jambonu" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Domates" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Jalepeno" />
             </Col>
           </Row>
           <Row>
@@ -267,38 +181,40 @@ export default function OrderForm() {
                 name="notes"
                 type="textarea"
                 placeholder="Siparişine eklemek istediğin bir not var mı?"
+                onChange={handleChange}
+                value={formData.notes}
               />
             </Col>
           </Row>
           <Row>
-            <Col md={12}><hr/></Col>
+            <Col md={12}><hr /></Col>
           </Row>
           <Row>
-          <Col md={4}>
-          <InputGroup>
-            <Button style={{ backgroundColor: "#FDC913", border: "none", color: "black", width: "40px" }} onClick={handleDecrementQuantity}>
-              -
-            </Button>
-            <Input value={formData.quantity} type="text" style={{ textAlign: "center" }} />
-            <Button style={{ backgroundColor: "#FDC913", border: "none", color: "black", width: "40px" }} onClick={handleIncrementQuantity}>
-              +
-            </Button>
-          </InputGroup>
-          </Col>
-          <Col md={8}>
-            <div className="summary">
-              <h3>Sipariş Toplamı</h3>
-              <div className='summary-additions'>
-                <span>Seçimler</span>
-                <span>{cost.additions}₺</span>
+            <Col md={4}>
+              <InputGroup>
+                <Button style={{ backgroundColor: "#FDC913", border: "none", color: "black", width: "40px" }} onClick={handleDecrementQuantity}>
+                  -
+                </Button>
+                <Input value={formData.quantity} type="text" style={{ textAlign: "center" }} />
+                <Button style={{ backgroundColor: "#FDC913", border: "none", color: "black", width: "40px" }} onClick={handleIncrementQuantity}>
+                  +
+                </Button>
+              </InputGroup>
+            </Col>
+            <Col md={8}>
+              <div className="summary">
+                <h3>Sipariş Toplamı</h3>
+                <div className='summary-additions'>
+                  <span>Seçimler</span>
+                  <span>{cost.additions}₺</span>
+                </div>
+                <div className='summary-total'>
+                  <span>Toplam</span>
+                  <span>{cost.total}₺</span>
+                </div>
               </div>
-              <div className='summary-total'>
-                <span>Toplam</span>
-                <span>{cost.total}₺</span>
-              </div>
-            </div>
-            <button className='order-button'>SİPARİŞ VER</button>
-          </Col>
+              <button className='order-button'>SİPARİŞ VER</button>
+            </Col>
           </Row>
         </Form>
       </div>
