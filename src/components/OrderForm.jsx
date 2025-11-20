@@ -15,7 +15,7 @@ const INITIAL_ERRORS = {
   thickness: '',
 };
 
-export default function OrderForm() {
+export default function OrderForm({ onPlaceOrder }) {
 
   //#region Hooks
   const [formData, setFormData] = useState({
@@ -139,7 +139,16 @@ export default function OrderForm() {
 
       console.log(resp.data);
 
-      history.push('/success');
+      onPlaceOrder({
+        ...resp.data,
+        cost
+      });
+
+      setTimeout(() => {
+
+        history.push('/success');
+
+      }, 500);
     })
     .catch(err => {
       console.error(err);

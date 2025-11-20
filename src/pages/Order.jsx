@@ -3,11 +3,11 @@ import OrderForm from "../components/OrderForm";
 
 import './Order.css';
 
-export default function Order() {
+export default function Order({ onPlaceOrder }) {
   return (
     <div style={{ minHeight: '100vh', width: '100vw' }}>
       <Header />  
-      <OrderForm />
+      <OrderForm onPlaceOrder={onPlaceOrder} />
     </div>
   )
 }

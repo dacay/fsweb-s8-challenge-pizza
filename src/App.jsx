@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,6 +13,8 @@ import Order from "./pages/Order";
 
 function App() {
 
+  const [orderData, setOrderData] = useState(null);
+
   return (
     <Router>
       <Switch>
@@ -19,10 +22,10 @@ function App() {
           <Home />
         </Route>
         <Route path="/success">
-          <Success />
+          <Success orderData={orderData} />
         </Route>
         <Route path="/order">
-          <Order />
+          <Order onPlaceOrder={setOrderData} />
         </Route>
       </Switch>
     </Router>

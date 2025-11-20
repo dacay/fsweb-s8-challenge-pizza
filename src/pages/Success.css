@@ -14,7 +14,7 @@
 }
 
 .success .content {
-  width: 100%;
+  width: 30%;
   flex-grow: 1;
   display: flex;
   padding-bottom: 6rem;
@@ -31,4 +31,31 @@
   letter-spacing: 1.5px;
   line-height: 1;
   text-align: center;
+}
+
+.success .content hr {
+  width: 100%;
+  border: 1px solid white;
+  margin: 2rem 0;
+}
+
+.success .content .order-summary {
+  font-family: 'Barlow', sans-serif;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.success .content .order-summary .order-summary-details {
+  width: 60%;
+  font-size: 1rem;
+}
+
+.success .content .order-summary bold {
+  font-weight: 400;
 }
