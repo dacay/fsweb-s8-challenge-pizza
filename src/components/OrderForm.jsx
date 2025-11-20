@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import { Form, Row, Col, FormGroup, Label, Input, Button, InputGroup, FormFeedback } from 'reactstrap';
 import AdditionCheckBox from './AdditionCheckBox';
@@ -15,6 +17,7 @@ const INITIAL_ERRORS = {
 
 export default function OrderForm() {
 
+  //#region Hooks
   const [formData, setFormData] = useState({
     name: '',
     size: '',
@@ -32,6 +35,11 @@ export default function OrderForm() {
     total: 0,
   });
 
+  const history = useHistory();
+
+  //#endregion
+
+  //#region Effects
   useEffect(() => {
 
     const baseCost = PIZZA_PRICE * formData.quantity;
@@ -85,6 +93,9 @@ export default function OrderForm() {
 
   }, [formData.name, formData.additions, formData.size, formData.thickness]);
 
+  //#endregion
+
+  //#region Handlers
   const handleIncrementQuantity = (e) => {
     setFormData({ ...formData, quantity: formData.quantity + 1 });
   };
@@ -115,6 +126,28 @@ export default function OrderForm() {
     }
   };
 
+  const handleSubmit = (e) => {
+    
+    e.preventDefault();
+
+    axios.post('https://reqres.in/api/pizza', formData, {
+      headers: {
+        'x-api-key': 'reqres-free-v1'
+      }
+    })
+    .then(resp => {
+
+      console.log(resp.data);
+
+      history.push('/success');
+    })
+    .catch(err => {
+      console.error(err);
+    })
+  }
+  //#endregion
+
+  //#region Render
   return (
     <div className='order-form'>
       <div className="content">
@@ -126,7 +159,7 @@ export default function OrderForm() {
             <span>(200)</span>
           </div>
         </div>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <p className="description">
             Frontent Dev olarak hala position:absolute kullanıyorsan bu çok acı pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir. . Küçük bir pizzaya bazen pizzetta denir.
           </p>
@@ -141,7 +174,7 @@ export default function OrderForm() {
                   type="text"
                   onChange={handleChange}
                   value={formData.name}
-                  invalid={errors.name !== ''}
+                  invalid={errors.name}
                 />
                 <FormFeedback>
                   {errors.name}
@@ -244,7 +277,7 @@ export default function OrderForm() {
                   Ek Malzemeler
                 </legend>
                 <span className="description">En Fazla 10 malzeme seçebilirsiniz. 5₺</span>
-                <Input type="checkbox" name="additions" invalid={errors.additions} />
+                <Input type="checkbox" name="additions" invalid={errors.additions} hidden />
                 <FormFeedback>
                   {errors.additions}
                 </FormFeedback>
@@ -318,4 +351,5 @@ export default function OrderForm() {
       </div>
     </div>
   )
+  //#endregion
 }
