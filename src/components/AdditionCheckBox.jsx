@@ -1,6 +1,6 @@
 import { FormGroup, Label, Input } from 'reactstrap';
 
-export default function AdditionCheckBox({ additions, onChange, value }) {
+export default function AdditionCheckBox({ additions, onChange, value, invalid }) {
 
   return (
     <FormGroup
@@ -8,7 +8,7 @@ export default function AdditionCheckBox({ additions, onChange, value }) {
       inline
     >
       <Label check>
-        <Input type="checkbox" name="additions" onChange={onChange} checked={additions.includes(value)} value={value} />{' '}{value}
+        <Input type="checkbox" name="additions" onChange={onChange} checked={additions.includes(value)} value={value} invalid={invalid} />{' '}{value}
       </Label>
     </FormGroup>
   );

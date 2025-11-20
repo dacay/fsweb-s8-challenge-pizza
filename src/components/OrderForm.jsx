@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 
-import { Form, Row, Col, FormGroup, Label, Input, Button, InputGroup } from 'reactstrap';
+import { Form, Row, Col, FormGroup, Label, Input, Button, InputGroup, FormFeedback } from 'reactstrap';
 import AdditionCheckBox from './AdditionCheckBox';
 
 import './OrderForm.css';
 
 const PIZZA_PRICE = 85.5;
+const INITIAL_ERRORS = {
+  name: '',
+  additions: '',
+  size: '',
+  thickness: '',
+};
 
 export default function OrderForm() {
 
@@ -17,12 +23,7 @@ export default function OrderForm() {
     additions: [],
     quantity: 1,
   });
-  const [errors, setErrors] = useState({
-    name: '',
-    additions: '',
-    size: '',
-    thickness: '',
-  });
+  const [errors, setErrors] = useState(INITIAL_ERRORS);
 
   const [isValid, setIsValid] = useState(false);
 
@@ -45,6 +46,44 @@ export default function OrderForm() {
     })
 
   }, [formData.additions, formData.quantity]);
+
+  useEffect(() => {
+
+    let newErrors = {}
+
+    const { name, additions, size, thickness } = formData;
+
+    if (name.trim().length < 3) {
+
+      newErrors.name = 'Ad en az 3 karakter olmalıdır.';
+    }
+
+    if (additions.length < 4) {
+      newErrors.additions = 'En az 4 malzeme seçmelisiniz.';
+    } else if (additions.length > 10) {
+      newErrors.additions = 'En fazla 10 malzeme seçebilirsiniz.';
+    }
+
+    if (size === '') {
+      newErrors.size = 'Boyut seçmelisiniz.';
+    }
+
+    if (thickness === '') {
+      newErrors.thickness = 'Hamur kalınlığı seçmelisiniz.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+
+      setErrors(newErrors);
+      setIsValid(false);
+
+    } else {
+
+      setErrors(INITIAL_ERRORS);
+      setIsValid(true);
+    }
+
+  }, [formData.name, formData.additions, formData.size, formData.thickness]);
 
   const handleIncrementQuantity = (e) => {
     setFormData({ ...formData, quantity: formData.quantity + 1 });
@@ -93,15 +132,21 @@ export default function OrderForm() {
           </p>
           <Row>
             <Col md={12}>
-              <legend>
-                Ad Soyad<span className="required">*</span>
-              </legend>
-              <Input
-                name="name"
-                type="text"
-                onChange={handleChange}
-                value={formData.name}
-              />
+              <FormGroup tag="fieldset">
+                <legend>
+                  Ad Soyad<span className="required">*</span>
+                </legend>
+                <Input
+                  name="name"
+                  type="text"
+                  onChange={handleChange}
+                  value={formData.name}
+                  invalid={errors.name !== ''}
+                />
+                <FormFeedback>
+                  {errors.name}
+                </FormFeedback>
+              </FormGroup>
             </Col>
           </Row>
           <Row>
@@ -118,6 +163,7 @@ export default function OrderForm() {
                       onChange={handleChange}
                       value="Küçük"
                       checked={formData.size === "Küçük"}
+                      invalid={errors.size}
                     />
                     {' '}
                     Küçük
@@ -131,6 +177,7 @@ export default function OrderForm() {
                       onChange={handleChange}
                       value="Orta"
                       checked={formData.size === "Orta"}
+                      invalid={errors.size}
                     />
                     {' '}
                     Orta
@@ -146,9 +193,13 @@ export default function OrderForm() {
                       onChange={handleChange}
                       value="Büyük"
                       checked={formData.size === "Büyük"}
+                      invalid={errors.size}
                     />
                     {' '}
                     Büyük
+                    <FormFeedback >
+                      {errors.size}
+                    </FormFeedback>
                   </Label>
                 </FormGroup>
               </FormGroup>
@@ -165,6 +216,7 @@ export default function OrderForm() {
                   type="select"
                   onChange={handleChange}
                   value={formData.thickness}
+                  invalid={errors.thickness}
                 >
                   <option value="">
                     Hamur Kalınlığı
@@ -179,6 +231,9 @@ export default function OrderForm() {
                     Kalın
                   </option>
                 </Input>
+                <FormFeedback >
+                  {errors.thickness}
+                </FormFeedback>
               </FormGroup>
             </Col>
           </Row>
@@ -189,26 +244,30 @@ export default function OrderForm() {
                   Ek Malzemeler
                 </legend>
                 <span className="description">En Fazla 10 malzeme seçebilirsiniz. 5₺</span>
+                <Input type="checkbox" name="additions" invalid={errors.additions} />
+                <FormFeedback>
+                  {errors.additions}
+                </FormFeedback>
               </FormGroup>
             </Col>
             <Col md={4}>
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Pepperoni" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Tavuk Izgara" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Mısır" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sarımsak" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Ananas" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Pepperoni" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Tavuk Izgara" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Mısır" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sarımsak" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Ananas" invalid={errors.additions} />
             </Col>
             <Col md={4}>
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sosis" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Soğan" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sucuk" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Biber" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Kabak" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sosis" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Soğan" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Sucuk" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Biber" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Kabak" invalid={errors.additions} />
             </Col>
             <Col md={4}>
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Kanada Jambonu" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Domates" />
-              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Jalepeno" />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Kanada Jambonu" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Domates" invalid={errors.additions} />
+              <AdditionCheckBox additions={formData.additions} onChange={handleChange} value="Jalepeno" invalid={errors.additions} />
             </Col>
           </Row>
           <Row>
